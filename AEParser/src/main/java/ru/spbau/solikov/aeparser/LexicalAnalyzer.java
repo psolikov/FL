@@ -14,6 +14,7 @@ public class LexicalAnalyzer {
         this.is = is;
         curPos = 0;
         nextChar();
+        if (curChar == -1 && curPos == 0) throw new ParseException("Empty input", 0);
     }
 
     private void nextChar() throws ParseException {
