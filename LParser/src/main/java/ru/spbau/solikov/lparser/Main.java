@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, ParseException {
-        FileInputStream fileInputStream = new FileInputStream("/Users/psolikov/IdeaProjects/FL/LParser/src/main/resources/Example");
+        FileInputStream fileInputStream = new FileInputStream(args[0]);
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(fileInputStream);
         try {
             lexicalAnalyzer.nextToken();
