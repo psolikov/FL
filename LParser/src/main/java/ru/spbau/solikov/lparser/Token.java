@@ -9,8 +9,8 @@ public enum  Token {
 
     boolean isLong = false;
     int length = 0;
-    int line;
-    int pos;
+    public int line;
+    public int pos;
     public double number;
     public String value = "";
 }

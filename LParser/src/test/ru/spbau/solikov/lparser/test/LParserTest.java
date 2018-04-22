@@ -236,4 +236,33 @@ public class LParserTest {
         assertEquals(lexicalAnalyzer.getCurToken().value, "false");
         assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
     }
+
+
+    @Test
+    public void testBrackets() throws ParseException {
+        String s = "(var)";
+        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken(), Token.LPAREN);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "var");
+        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken(), Token.RPAREN);
+    }
+
+    @Test
+    public void testManyLines() throws ParseException {
+        String s = "a\nb\nc";
+        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().line, 0);
+        assertEquals(lexicalAnalyzer.getCurToken().value, "a");
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().line, 1);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().line, 2);
+    }
 }
