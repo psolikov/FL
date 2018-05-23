@@ -3,41 +3,41 @@ package ru.spbau.solikov.lparser.test;
 import org.junit.Test;
 import ru.spbau.solikov.lparser.LexicalAnalyzer;
 import ru.spbau.solikov.lparser.ParseException;
-import ru.spbau.solikov.lparser.Token;
+import ru.spbau.solikov.lparser.Token.T;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
 
-public class LParserTest {
+public class LLexerTest {
 
     @Test
     public void testKeyWords() throws ParseException {
-        String s = "if then else while do read write";
+        String s = "if then else while def read write";
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "if");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "then");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "else");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "while");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken().value, "do");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().value, "def");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "read");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "write");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class LParserTest {
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "them");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         lexicalAnalyzer.nextToken();
     }
 
@@ -57,7 +57,7 @@ public class LParserTest {
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
         assertEquals(Double.valueOf(lexicalAnalyzer.getCurToken().number), Double.valueOf(123.321));
     }
 
@@ -76,59 +76,56 @@ public class LParserTest {
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "+");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "-");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "*");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "/");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "%");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "==");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "!=");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, ">");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, ">=");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "<");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "<=");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "&&");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "||");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
     }
 
-    @Test(expected = ParseException.class)
+    @Test
     public void testBadOperator() throws ParseException {
         String s = "++";
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
-    }
-
-    @Test(expected = ParseException.class)
-    public void testBadOperator2() throws ParseException {
-        String s = "====";
-        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        assertEquals(lexicalAnalyzer.getCurToken().value, "+");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "+");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
     }
 
     @Test
@@ -137,13 +134,13 @@ public class LParserTest {
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "x");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         assertEquals(lexicalAnalyzer.getCurToken().value, "==");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
         assertEquals(Double.valueOf(lexicalAnalyzer.getCurToken().number), Double.valueOf(3));
     }
 
@@ -153,48 +150,48 @@ public class LParserTest {
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "read");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "x");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.SEMICOLON);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.SEMICOLON);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "if");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "y");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         assertEquals(lexicalAnalyzer.getCurToken().value, "+");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
         assertEquals(lexicalAnalyzer.getCurToken().value, "1");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Op);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
         assertEquals(lexicalAnalyzer.getCurToken().value, "==");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "x");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "then");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "write");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "y");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "else");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.KW);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.KW);
         assertEquals(lexicalAnalyzer.getCurToken().value, "write");
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         assertEquals(lexicalAnalyzer.getCurToken().value, "x");
     }
 
@@ -216,7 +213,7 @@ public class LParserTest {
         assertEquals(lexicalAnalyzer.getCurToken().value, "________");
     }
 
-    @Test(expected = ParseException.class)
+    @Test
     public void testEmpty() throws ParseException {
         String s = "";
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
@@ -231,10 +228,10 @@ public class LParserTest {
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "true");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "false");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Literal);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
     }
 
 
@@ -244,12 +241,12 @@ public class LParserTest {
         InputStream targetStream = new ByteArrayInputStream(s.getBytes());
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.LPAREN);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.LPAREN);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().value, "var");
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.Ident);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
         lexicalAnalyzer.nextToken();
-        assertEquals(lexicalAnalyzer.getCurToken(), Token.RPAREN);
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.RPAREN);
     }
 
     @Test
@@ -264,5 +261,44 @@ public class LParserTest {
         assertEquals(lexicalAnalyzer.getCurToken().line, 1);
         lexicalAnalyzer.nextToken();
         assertEquals(lexicalAnalyzer.getCurToken().line, 2);
+    }
+
+    @Test
+    public void testWhite() throws ParseException {
+        String s = "white";
+        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "white");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
+    }
+
+    @Test
+    public void testNum() throws ParseException {
+        String s = "-975.31e+2468";
+        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "-");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "975.31e+2468");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Literal);
+    }
+
+    @Test
+    public void testComment() throws ParseException {
+        String s = "// comment";
+        InputStream targetStream = new ByteArrayInputStream(s.getBytes());
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(targetStream);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "/");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "/");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Op);
+        lexicalAnalyzer.nextToken();
+        assertEquals(lexicalAnalyzer.getCurToken().value, "comment");
+        assertEquals(lexicalAnalyzer.getCurToken().kind, T.Ident);
     }
 }
